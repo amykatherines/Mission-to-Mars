@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission to Mars</title>
+    <!-- The <link /> is where we can access all of Bootstrap's components without needing to download the files themselves-->
+    <link 
+        rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+</head>
+<body>
+    <!--Each HTML page with Bootstrap follows the same layout: 
+        The very first tag is a <div /> with a class of "container". 
+        This is because a container is required for the grid system to work-->
+    <div class="container">
+        <!-- use the Bootstrap Jumbotron component -  Bootstrap's Jumbotron makes the header BIG-->
+        <div class="jumbotron text-center">
+            <h1>Mission to Mars</h1>
+            <!-- Adding a button using Bootstrap's button component
+                 we're using Bootstrap to create a button instead of the <button /> tag and element-->
+            <p><a class="btn btn-primary btn-lg" href="/scrape"
+                        role="button">Scrape New Data</a></p>            
+        </div>
+        <!-- Mars News -->
+        <div class="row" id="mars-news">
+            <!-- means that we want to use 12 columns scaled to a midsize desktop display-->
+            <div class="col-md-12">
+            <!-- media / media-body - tells Bootstrap that we want our content to be 
+                displayed as media, and then we insert the media within the body. 
+                Bootstrap already has the custom CSS set up for these classes-->
+            <div class="media">
+                <div class="media-body">
+                <h2>Latest Mars News</h2>
+                <!--h4 & next p follows the syntax document.variable_name: In our scraping code, 
+                    we saved the title of the article we scraped to 
+                    the "news_title" variable and stored that in the 
+                    mars Mongo document. When Flask encounters these curly brackets, 
+                    it then looks to the string (in this case, a variable) stored 
+                    within them and replaces the variable with the data it holds-->
+                <h4 class="media-heading">{{mars.news_title}}</h4>
+                <p>{{mars.news_paragraph}}</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Featured Image -->
+        <!--Each new item we're inserting now is on its own row, 
+            so the very first div will have a class of "row."
+            We also added an id for later customization: “mars-featured-image”. 
+            This is so we can reference it using CSS if we want to 
+            fine-tune the appearance later.-->
+        <div class="row" id="mars-featured-image">
+            <!--Next, we'll add the div for the rows—eight this time. 
+                The number of columns must total 12, so we'll use the four 
+                remaining columns for the table data (which we'll add later).-->
+            <div class="col-md-8">
+        
+            <h2>Featured Mars Image</h2>
+            <!--  The next line inserts an image using the <img /> tag, but the tag 
+                alone won't actually insert the image. 
+                We also need to include the source, or link to where the image is. 
+                We do this by adding src="{{ mars.featured_image }}"
+                —notice that we're once again using Flask's ability to interpret strings here.
+
+When we add class="img-responsive," we're using another built-in Bootstrap component that makes the image responsive. That means that the size of the image varies depending on the browser used, without us having to add extra code to do so-->
+            <img src="{{ mars.featured_image }}" class="img-responsive" alt="Responsive image"/>
+
+            <!-- Mars Facts -->
+            <div class="col-md-4">
+                <div class="row" id="mars-facts">
+                    <h4>Mars Facts</h4>
+                    <!--The line {{ mars.facts | safe }} accomplishes two tasks: 
+                        it first references the facts table in the mars document, 
+                        and it also tells the web browser that this code doesn't 
+                        contain anything malicious-->
+                    {{ mars.facts | safe }}
+                  </div>
+            </div>
+            </div>
+        
+        </div>
+     </div>
+</body>
+</html>
