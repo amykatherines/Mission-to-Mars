@@ -121,17 +121,18 @@ def mars_facts():
       return None
     
     # Assign column names to the new DataFrame for additional clarity.
-    df.columns=['description', 'Mars', 'Earth']
+    df.columns=['Description', 'Mars', 'Earth']
 
     # By using the .set_index() function, we're turning the Description column into the
     # DataFrame's index. inplace=True means that the updated index will remain in place, 
     # without having to reassign the DataFrame to a new variable
-    df.set_index('description', inplace=True)
+    df.set_index('Description', inplace=True)
     
-    return df.to_html(classes="table table-striped")
+    return df.to_html(classes="table table-striped table-hover")
 
 
 def mars_hemispheres(browser):
+
 
     # # D1: Scrape High-Resolution Mars’ Hemisphere Images and Titles
     # 1. Use browser to visit the URL 
@@ -146,8 +147,12 @@ def mars_hemispheres(browser):
     # 2. Create a list to hold the images and titles.
     hemisphere_image_urls = []
 
-    # 3. Write code to retrieve the image urls and titles for each hemisphere.
-    image_div = html_soup.find_all('div', class_='item')
+    # If there's an error, Python will continue to run the remainder of the code. 
+    try: 
+        # 3. Write code to retrieve the image urls and titles for each hemisphere.
+        image_div = html_soup.find_all('div', class_='item')
+    except BaseException:
+      return None
 
     # Iterate through each image
     for image_links in image_div:
